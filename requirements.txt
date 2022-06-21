@@ -1,4 +1,4 @@
-dango==4.0.5
-django-ckeditor==6.4.2
-psycopg2==2.9.3
+dango
+django-ckeditor
+psycopg2
 
