@@ -35,13 +35,13 @@ body{
 
 
 .form-log{
-  background-image: url("../img/fondo_cuatro.jpg") ;
+  background-image: url("../img/fondo_ocho.jpg") ;
   background-size: cover; 
   height: 100vh;
 }
 
 .form-send{
-  background-image: url("../img/fondo_seis.jpg") ;
+  background-image: url("../img/fondo_ocho.jpg") ;
   background-size: cover; 
   height: calc(100vh + 30px);
   width: 100vw;
@@ -80,4 +80,20 @@ body{
 #divLoading img{
 	width: 100px;
 	height: 100px;
+}
+
+.slide1{
+  background-image: url(../img/fondo_uno.jpg)
+}
+
+.slide2{
+  background-image: url(../img/fondo_dos.jpg)
+}
+
+.img1{
+  background-image: url(../img/fondo_tres.jpg); color: #fff;
+}
+
+.img2{
+  background-image: url(../img/fondo_uno.jpg); color: #fff;
 }

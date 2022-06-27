@@ -2,6 +2,28 @@
 {% load static %}
 {% block title %}Páginas{% endblock %}
 {% block content %}
+
+<script>
+    document.getElementById("about_show").style.display = "none";
+    document.getElementById("services_show").style.display = "none";
+    document.getElementById("contact_show").style.display = "none";
+</script>
+     
+<!-- NECESARIOS PARA EL INPUT FILE -->
+<script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>            
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script> 
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Fuentes -->
+<link href="https://fonts.googleapis.com/css?family=Raleway:400,400i,700,700i" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
+<link href="{% static 'core/vendor/materialize/css/materialize.min.css' %}" rel="stylesheet">
+<link href="{% static 'core/vendor/materialize/css/materialize.css' %}" rel="stylesheet">    
+<link href="{% static 'core/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'core/css/main.css' %}" rel="stylesheet">
+<link href="{% static 'core/js/main.js' %}" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <div class="form-send">
     <div id='divLoading'>
         <div>
@@ -24,10 +46,10 @@
                                     <div class="file-field input-field">
                                         <div class="btn waves-effect waves-light">
                                             <i class="material-icons left">cloud_upload</i>Excel
-                                            <input type="file" id="file" name="file" class="white-text">
+                                            <input type="file" id="file" name="file" class="white-text" accept=".xlsx">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate white-text " type="text">
+                                            <input class="file-path validate white-text " type="text" id="text-file">
                                         </div>
                                     </div>
                                 </div>
@@ -39,7 +61,7 @@
                             </form>
                             
                             <div class="row" style="text-align:left ;">
-                                <div class="col s12">
+                                <div class="">
                                   <label class="white-text" >Referentie transaction</label>
                                   <div class="card-panel teal lighten-5" id="status">
                                     <span class="black-text" id="response_status">
@@ -48,7 +70,7 @@
                                 </div>
                             </div>
                             <div class="row" style="text-align:left ;">
-                                <div class="col s12">
+                                <div class="">
                                   <label class="white-text" >Errors</label>
                                   <div class="card-panel red lighten-5 textarea">
                                     <span class="black-text " id="response_errors">
@@ -66,7 +88,6 @@
     
         <script>
             let divLoading = document.querySelector("#divLoading");
-
             function getCookie(cname) {
                 var name = cname + "=";
                 var ca = document.cookie.split(';');
@@ -78,11 +99,7 @@
                 }
                 return "";
             }
-
-           
-
-    
-    
+          
             formulario.onsubmit = async (e) => {
                 e.preventDefault();
                 divLoading.style.display = "flex";
@@ -119,11 +136,8 @@
                     }
                 });
             };
-    
-    
         </script>
     </div>
-
 </div>
 
 {% endblock %}

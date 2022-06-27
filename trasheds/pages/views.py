@@ -1,17 +1,14 @@
-from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from .forms import UploadFileForm
-from django.core import serializers
 from .models import Contact, Page, Company_number, Log, Euralcode
 from django.http import JsonResponse
 from .services import get_api
 import pandas as pd
-from datetime import datetime
 
 def pages(request):
     return redirect(reverse_lazy('home'))
-    #return render(request, 'pages/pages.html', {'pages':pages})
 
 def page(request, page_id, page_slug):
     page = get_object_or_404(Page, id=page_id)
@@ -164,21 +161,15 @@ def upload_file(request):
             form = UploadFileForm(request.POST, request.FILES)       
             data = request.FILES['file']        
             sheet_name = 0 
-            header = 0
-        
+            header = 0        
             df = pd.read_excel(data, sheet_name = sheet_name, header = header)
-
             
-            #print("THIS ROW ========>   "+ df["PRUEBA"][i])
             for i in df.index: 
-
                 is_defined = pd.isna((df[4][i]))
                 if i <= 0:
                     continue
                 if is_defined:
-                    break  
-
-               
+                    break                
 
                 wg_nr   =   df[4][i]
                 wg_wg1a =   df[37][i]
@@ -195,7 +186,6 @@ def upload_file(request):
                 warde =     convertDate(wg_datum)                 
                 
                 data = {
-                        #"referentie":               "",
                         "identificatie":            "UIT-" + wg_nr,
                         "meldingType":              ("UIT", "IN")[wg_wg2a > wg_wg1a] ,
                         "oorsprong": {
@@ -211,7 +201,7 @@ def upload_file(request):
                             "gemeente":             company.gemeente,
                             "land":                 company.landcode,
                             # //CharSequence.notBlank[]
-                            "commentaar":           "dwedwedw"
+                            "commentaar":           "None"
                         },
                         "bestemming": {
                             "type":                 ("WERF", "BELGISCHE_VESTIGING")[wg_hkwerf == 'KLANT' or  'BOX' in wg_hkwerf] ,     
@@ -226,7 +216,7 @@ def upload_file(request):
                             "gemeente":             company.gemeente,
                             "land":                 company.landcode,
                             # //CharSequence.notBlank[]
-                            "commentaar":           "dewdwddwed"
+                            "commentaar":           "None"
                         },
                         "periode": {
                             "eenheid":              "DAG",
@@ -235,7 +225,6 @@ def upload_file(request):
                         "tonnage":                  wg_netto,
                         "materiaal": {
                             "materiaalcode":        "M00.00",
-                            #"euralcode":            "",
                             #"euralcode":            eural.eural,
                             "omschrijving":         "string",
                             "kwaliteit":            "string"
@@ -244,32 +233,17 @@ def upload_file(request):
                             "btwNummer":            "string"
                         },
                         "verwerking": {
-                            "rdCode":                "D1",
-                            "wijze":                "ANDERE_AFVALVERBRANDING",
-                            #"rdCode":               eural.rd,
-                            #"wijze":                eural.verwer.upper(),
+                            "rdCode":               eural.rd,
+                            "wijze":                eural.verwer.upper(),
                             "omschrijving":         "string",
                             "inputInRecyclage":     "string"
                         },
                         "vervoerswijze":            "WATERWEG",
                         "toepassingswijze":         "DISPERS_GEBRUIK"
                     }               
-                #print("ARMA UNO", i , " ", df[4][i], " ", df[45][i], " ", df[106][i], " ")              
                 request_in.append(data)
-              
-            
-
             response = get_api(request_in)
 
-
-            # try:
-            #     query = Company_number.objects.get(id = 1)
-
-                
-            #     print(query.ondernemin)
-               
-            # except Exception as e:
-            #     print(e)
             status = str(response.get('status'))
             inputs = str(response.get('input'))
             errors = str(response.get('errors'))
